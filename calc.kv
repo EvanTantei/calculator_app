@@ -1,0 +1,137 @@
+<MyLayout>
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+
+        TextInput:
+            id: calc_input
+            text: "0"
+            halign: "right"
+            font_size: 65
+            size_hint: (1, .15)
+
+        GridLayout:
+            cols: 4
+            rows: 5
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "%"
+                background_color: (251/255, 58/255, 128/255, .3)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "CE"
+                background_color: (251/255, 58/255, 128/255, .3)
+
+            Button:
+                id: clear
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "C"
+                background_color: (251/255, 58/255, 128/255, .3)
+                on_press: root.clear()
+                
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "/"
+                background_color: (251/255, 58/255, 128/255, .3)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "7"
+                background_color: (253/255, 165/255, 178/255, .5)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "8"
+                background_color: (253/255, 165/255, 178/255, .5)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "9"
+                background_color: (253/255, 165/255, 178/255, .5)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "X"
+                background_color: (251/255, 58/255, 128/255, .3)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "4"
+                background_color: (253/255, 165/255, 178/255, .5)                
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "5"
+                background_color: (253/255, 165/255, 178/255, .5)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "6"
+                background_color: (253/255, 165/255, 178/255, .5)
+                                
+            Button:                    
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "-"
+                background_color: (251/255, 58/255, 128/255, .3)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "1"
+                background_color: (253/255, 165/255, 178/255, .5)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "2"
+                background_color: (253/255, 165/255, 178/255, .5)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "3"
+                background_color: (253/255, 165/255, 178/255, .5)   
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "+"
+                background_color: (251/255, 58/255, 128/255, .3)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "+/-"
+                background_color: (251/255, 58/255, 128/255, .3)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "0"
+                background_color: (253/255, 165/255, 178/255, .5)
+
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "."
+                background_color: (253/255, 165/255, 178/255, .5)
+            
+            Button:
+                size_hint: (.2, .2)
+                font_size: 32
+                text: "="
+                background_color: (253/255, 236/255, 176/255, .3)

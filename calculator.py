@@ -4,6 +4,7 @@ from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivy.core.window import Window
+import re
 
 #set app's size
 Window.size = (500, 700)
@@ -44,42 +45,68 @@ class MyLayout(Widget):
 
 
     def equals(self):
-        available_ess = self.ids.calc_input.text
+        # available_ess = self.ids.calc_input.text
         available = self.ids.calc_input.text
         answer = 0
-        num_list  = available.split('+', '-', '/', '*')
-        sign_list = available.split(num_list)
-        
+
+        #Grouping the operators and the numerators
+        num_list = available.replace('+', ' ').replace('-', ' ').replace('/', ' ').replace('x', ' ').split()
+
+        sign_list = available
+
+        num_list2 = [int(num) for num in num_list]
+        num_list2 = sorted(num_list2, reverse=True)
+        num_list2 = [str(num) for num in num_list2]
+
+        for num in num_list2:
+            sign_list = sign_list.replace(num, ' ')
+
+        sign_list = sign_list.split()
+
+
+         
         #addition
-        for element in sign_list:
-            if "+" in sign_list:
-                #loop list
-                for element in num_list:
-                    answer = answer + int(element)
-    
-                self.ids.calc_input.text = str(answer)
+        #modifikasi agar textbox bisa memuat banyak operasi sekaligus dan mengutamakan perkalian dan pembagian
+        while("x" or "/" or "+" or "-" in sign_list):
+            if "x" in sign_list:
+                #loop list 
+                a = str(int(num_list[sign_list.index("/")]) / int(num_list[sign_list.index("/")+1]))
+                num_list[sign_list.index("x")].append(a)
+                num_list.pop(sign_list.index("x")+1)
+                num_list.pop(sign_list.index("x")+1)
+                sign_list.pop(sign_list.index("x"))
 
-            elif "-" in available:
-                num_list = available.split("-")
+            elif "/" in sign_list:
+                #loop list
+                a = str(int(num_list[sign_list.index("/")]) / int(num_list[sign_list.index("/")+1]))
+                num_list[sign_list.index("/")].append(a)
+                num_list.pop(sign_list.index("/")+1)
+                num_list.pop(sign_list.index("/")+1)
+                sign_list.pop(sign_list.index("/"))
+                    
+
+        # while("+" or "-" in sign_list):
+            elif "+" in sign_list:
+                #loop list
+                answer = int(num_list[0]) + int(num_list[1])
+                num_list.pop(0)
+                num_list.pop(0)
+                num_list[0].append(answer)
+
+                sign_list.pop(sign_list.index("+"))
+
+            elif "-" in sign_list:
                  #loop list
-                for element in num_list:
-                    answer = answer - int(element)
-                self.ids.calc_input.text = str(answer)
+                answer = int(num_list[0]) - int(num_list[1])
+                num_list.pop(0)
+                num_list.pop(0)
+                num_list[0].append(answer)
 
-            elif "x" in available:
-                num_list = available.split("x")
-                #loop list
-                for element in num_list:   
-                    answer = answer * int(element)
-                self.ids.calc_input.text = str(answer)
+                sign_list.pop(sign_list.index("-"))
 
-            elif "/" in available:
-                num_list = available.split("/")
-                #loop list
-                for element in num_list:
-                    answer = answer / int(element)
-                #display the answer into the text box
-                self.ids.calc_input.text = str(answer)
+        self.ids.calc_input.text = str(answer)
+
+
             
     def decimal(self):
         available = self.ids.calc_input.text

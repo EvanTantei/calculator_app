@@ -5,6 +5,7 @@ from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivy.core.window import Window
 import re
+import math
 
 #set app's size
 Window.size = (500, 700)
@@ -40,7 +41,6 @@ class MyLayout(Widget):
 
     def math_sign(self, sign):
         available = self.ids.calc_input.text
-
         self.ids.calc_input.text = f'{available}{sign}'
 
 
@@ -70,7 +70,7 @@ class MyLayout(Widget):
         while("x" or "/" or "+" or "-" in sign_list):
             if "x" in sign_list:
                 #loop list 
-                a = str(int(num_list[sign_list.index("/")]) / int(num_list[sign_list.index("/")+1]))
+                a = str(int(num_list[sign_list.index("x")]) * int(num_list[sign_list.index("x")+1]))
                 num_list[sign_list.index("x")].append(a)
                 num_list.pop(sign_list.index("x")+1)
                 num_list.pop(sign_list.index("x")+1)
@@ -91,18 +91,18 @@ class MyLayout(Widget):
                 answer = int(num_list[0]) + int(num_list[1])
                 num_list.pop(0)
                 num_list.pop(0)
-                num_list[0].append(answer)
+                num_list.append(answer)
 
-                sign_list.pop(sign_list.index("+"))
+                sign_list.pop(0)
 
             elif "-" in sign_list:
                  #loop list
                 answer = int(num_list[0]) - int(num_list[1])
                 num_list.pop(0)
                 num_list.pop(0)
-                num_list[0].append(answer)
+                num_list.append(answer)
 
-                sign_list.pop(sign_list.index("-"))
+                sign_list.pop(0)
 
         self.ids.calc_input.text = str(answer)
 

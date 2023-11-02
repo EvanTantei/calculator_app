@@ -47,11 +47,8 @@ class MyLayout(Widget):
     def equals(self):
         # available_ess = self.ids.calc_input.text
         available = self.ids.calc_input.text
-        answer = 0
-
         #Grouping the operators and the numerators
         num_list = available.replace('+', ' ').replace('-', ' ').replace('/', ' ').replace('x', ' ').split()
-
         sign_list = available
 
         num_list2 = [int(num) for num in num_list]
@@ -67,44 +64,41 @@ class MyLayout(Widget):
          
         #addition
         #modifikasi agar textbox bisa memuat banyak operasi sekaligus dan mengutamakan perkalian dan pembagian
-        while("x" or "/" or "+" or "-" in sign_list):
+        while("x" or "/" or  "+" or "-" in sign_list):
             if "x" in sign_list:
                 #loop list 
                 a = str(int(num_list[sign_list.index("x")]) * int(num_list[sign_list.index("x")+1]))
-                num_list[sign_list.index("x")].append(a)
-                num_list.pop(sign_list.index("x")+1)
+                num_list[sign_list.index("x")].replace(num_list[sign_list.index("x")], a)
                 num_list.pop(sign_list.index("x")+1)
                 sign_list.pop(sign_list.index("x"))
 
             elif "/" in sign_list:
                 #loop list
                 a = str(int(num_list[sign_list.index("/")]) / int(num_list[sign_list.index("/")+1]))
-                num_list[sign_list.index("/")].append(a)
-                num_list.pop(sign_list.index("/")+1)
+                num_list[sign_list.index("/")].replace(num_list[sign_list.index("/")], a)
                 num_list.pop(sign_list.index("/")+1)
                 sign_list.pop(sign_list.index("/"))
-                    
 
-        # while("+" or "-" in sign_list):
             elif "+" in sign_list:
                 #loop list
-                answer = int(num_list[0]) + int(num_list[1])
-                num_list.pop(0)
-                num_list.pop(0)
-                num_list.append(answer)
+                ans = str(int(num_list[sign_list.index("+")]) + int(num_list[sign_list.index("+")]))
+                num_list.pop(sign_list.index("+"))
+                num_list.pop(sign_list.index("+"))
+                num_list.insert(sign_list.index("+"), ans)
 
-                sign_list.pop(0)
+                sign_list.pop(sign_list.index("+"))
 
             elif "-" in sign_list:
                  #loop list
-                answer = int(num_list[0]) - int(num_list[1])
-                num_list.pop(0)
-                num_list.pop(0)
-                num_list.append(answer)
+                ans = str(int(num_list[sign_list.index("-")]) - int(num_list[sign_list.index("-")]))
+                num_list.pop(sign_list.index("-"))
+                num_list.pop(sign_list.index("-"))
+                num_list.insert(sign_list.index("-"), ans)
 
-                sign_list.pop(0)
+                sign_list.pop(sign_list.index("-"))
 
-        self.ids.calc_input.text = str(answer)
+        answer = num_list[0]
+        self.ids.calc_input.text = answer
 
 
             
@@ -117,7 +111,13 @@ class MyLayout(Widget):
         #display
         self.ids.calc_input.text = available
 
+    def pos_neg(self):
+        available = self.ids.calc_input.text
 
+        if "-" in available:
+            self.ids.calc_input.text = f'{available.replace("-", "")}'
+        else:
+            self.ids.calc_input.text = f'-{available}'
 
 #main system generator
 class calcApp(App):

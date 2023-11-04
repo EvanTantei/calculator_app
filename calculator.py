@@ -48,67 +48,83 @@ class MyLayout(Widget):
         # available_ess = self.ids.calc_input.text
         available = self.ids.calc_input.text
         #Grouping the operators and the numerators
-        num_list = available.replace('+', ' ').replace('-', ' ').replace('/', ' ').replace('x', ' ').split()
-        sign_list = available
-
-        num_list2 = [int(num) for num in num_list]
-        num_list2 = sorted(num_list2, reverse=True)
-        num_list2 = [str(num) for num in num_list2]
-
-        for num in num_list2:
-            sign_list = sign_list.replace(num, ' ')
-
-        sign_list = sign_list.split()
-
-
-         
         #addition
-        #modifikasi agar textbox bisa memuat banyak operasi sekaligus dan mengutamakan perkalian dan pembagian
-        while("x" or "/" or  "+" or "-" in sign_list):
-            if "x" in sign_list:
-                #loop list 
-                a = str(int(num_list[sign_list.index("x")]) * int(num_list[sign_list.index("x")+1]))
-                num_list[sign_list.index("x")].replace(num_list[sign_list.index("x")], a)
-                num_list.pop(sign_list.index("x")+1)
-                sign_list.pop(sign_list.index("x"))
-
-            elif "/" in sign_list:
-                #loop list
-                a = str(int(num_list[sign_list.index("/")]) / int(num_list[sign_list.index("/")+1]))
-                num_list[sign_list.index("/")].replace(num_list[sign_list.index("/")], a)
-                num_list.pop(sign_list.index("/")+1)
-                sign_list.pop(sign_list.index("/"))
-
-            elif "+" in sign_list:
-                #loop list
-                ans = str(int(num_list[sign_list.index("+")]) + int(num_list[sign_list.index("+")]))
-                num_list.pop(sign_list.index("+"))
-                num_list.pop(sign_list.index("+"))
-                num_list.insert(sign_list.index("+"), ans)
-
-                sign_list.pop(sign_list.index("+"))
-
-            elif "-" in sign_list:
-                 #loop list
-                ans = str(int(num_list[sign_list.index("-")]) - int(num_list[sign_list.index("-")]))
-                num_list.pop(sign_list.index("-"))
-                num_list.pop(sign_list.index("-"))
-                num_list.insert(sign_list.index("-"), ans)
-
-                sign_list.pop(sign_list.index("-"))
-
-        answer = num_list[0]
-        self.ids.calc_input.text = answer
-
-
+        answer = 0
             
+        if "+" in available:
+            num_list = available.split("+")
+        
+            for i in range(0, len(num_list)-1):
+                if "%" in num_list[i]:
+                    n = num_list[i].replace("%", " ")
+                    num_list[i] = float(n) * 1/100 
+            #loop list
+            for element in num_list:
+                answer = answer + float(element)
+
+            if answer % 1 == 0:
+                self.ids.calc_input.text = str(int(answer))
+            else:
+                self.ids.calc_input.text = str(answer)
+
+        elif "-" in available:
+            num_list = available.split("-")
+
+            for i in range(0, len(num_list)-1):
+                if "%" in num_list[i]:
+                    n = num_list[i].replace("%", " ")
+                    num_list[i] = float(n) * 1/100
+            
+            #loop list
+            answer = float(num_list[0]) - float(num_list[1])
+
+            if answer % 1 == 0:
+                self.ids.calc_input.text = str(int(answer))
+            else:
+                self.ids.calc_input.text = str(answer)
+
+        elif "x" in available:
+            num_list = available.split("x")
+            #loop list
+
+            for i in range(0, len(num_list)-1):
+                if "%" in num_list[i]:
+                    n = num_list[i].replace("%", " ")
+                    num_list[i] = float(n) * 1/100
+
+            answer = 1.0
+            for element in num_list:   
+                answer = answer * float(element)
+            
+            if answer % 1 == 0:
+                self.ids.calc_input.text = str(int(answer))
+            else:
+                self.ids.calc_input.text = str(answer)
+
+        elif "/" in available:
+            num_list = available.split("/")
+
+            for i in range(0, len(num_list)-1):
+                if "%" in num_list[i]:
+                    n = num_list[i].replace("%", " ")
+                    num_list[i] = float(n) * 1/100
+
+            #loop list
+            answer = float(num_list[0])**2
+            for element in num_list:
+                answer = answer / float(element)
+            #display the answer into the text box
+            
+            if answer % 1 == 0:
+                self.ids.calc_input.text = str(int(answer))
+            else:
+                self.ids.calc_input.text = str(answer)
+
     def decimal(self):
         available = self.ids.calc_input.text
-        if "." in available:
-            pass 
-        #add decimal to end of text
+            #add decimal to end of text
         available = f'{available}.'
-        #display
+            #display
         self.ids.calc_input.text = available
 
     def pos_neg(self):
@@ -119,6 +135,12 @@ class MyLayout(Widget):
         else:
             self.ids.calc_input.text = f'-{available}'
 
+    def percentage(self):
+        available = self.ids.calc_input.text
+
+        available = f'{available}%'
+
+        self.ids.calc_input.text = available
 #main system generator
 class calcApp(App):
     def build(self):

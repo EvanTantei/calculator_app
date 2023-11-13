@@ -20,6 +20,7 @@ Make sure you have the following installed before running the application:
 ## Library and Addition Requirements (IMPORTANT)
 
 1. Paste "pip freeze > requirements.txt" on your command prompt
-2. Clone your git repository by paste "git clone"
+2. Clone your git repository by paste "git clone https://github.com/EvanTantei/calculator_app.git
+   cd calculator_app"
 3. Install the library that's included in requirements.txt by paste "pip install -r requirements.txt"
 4. Run your python file by paste "python calculator.py"
